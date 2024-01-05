@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4fa2c96e-9083-4e9d-8802-8bdeac4b91c7"
+      }
+    },
+    "owner": "wira1997"
   }
 }
