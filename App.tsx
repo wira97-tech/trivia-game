@@ -12,10 +12,10 @@ const App = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen">
+        <Stack.Navigator initialRouteName="LandingPage">
           <Stack.Screen
             name="SplashScreen"
-            component={SplashScreen}
+            component={LandingPage}
             options={{ headerShown: false }}
           />
           <Stack.Screen

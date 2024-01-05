@@ -120,7 +120,7 @@ const Profile = () => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: -200 }}>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
