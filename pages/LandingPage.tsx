@@ -1,3 +1,4 @@
+import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
@@ -6,6 +7,8 @@ import * as Google from "expo-auth-session/providers/google"
 import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
+
 WebBrowser.maybeCompleteAuthSession()
 interface UserInfo {
   picture?: string
@@ -19,26 +22,9 @@ const LandingPage = () => {
   const navigate = useNavigation()
   const config = {
     webClientId:
-      "623779372303-jfvf24v6oh46g9takmlkd4gauh5nsu46.apps.googleusercontent.com",
+      "864096410384-9kj4i25qqqsr2vkhpkhg8m0qmurk9ah7.apps.googleusercontent.com",
   }
-  const [request, response, promptAsync] = Google.useAuthRequest(config)
-  const handlePress = async () => {
-    const user = await getLocalUser()
-
-    if (!user) {
-      setAuthInProgress(true)
-      const result = await promptAsync()
-      console.log(result)
-      if (result.type == "success") {
-        getUserInfo(result?.authentication?.accessToken || "")
-        navigate.navigate("SelectProfile" as never)
-      }
-    } else {
-      // navigate.navigate("Home" as never);
-      console.log(user)
-      console.log("loaded locally")
-    }
-  }
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest(config)
 
   const getLocalUser = async () => {
     try {
@@ -50,26 +36,27 @@ const LandingPage = () => {
       return null
     }
   }
-  const getUserInfo = async (token: string) => {
-    if (!token) return
-    try {
-      const response = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
 
-      const user = await response.json()
+  const handlePress = async () => {
+    const user = await getLocalUser()
 
-      await AsyncStorage.setItem("user", JSON.stringify(user))
-      setAuthInProgress(false)
-    } catch (error) {
-      console.log("Error fetching user info:", error)
-      setAuthInProgress(false)
+    if (!user) {
+      setAuthInProgress(true)
+      const result = await promptAsync()
+      if (result.type == "success") {
+        const { params } = result
+        axios.post("http://localhost:8000/api/v1/user", {
+          idToken: params?.id_token,
+        })
+        console.log("ini params", params)
+
+        navigate.navigate("Profile" as never)
+      }
+    } else {
+      console.log(user)
+      console.log("loaded locally")
     }
   }
-
   return (
     <View style={styles.container}>
       <Image style={styles.background} source={require("../assets/bg1.png")} />

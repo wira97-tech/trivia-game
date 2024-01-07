@@ -1,3 +1,4 @@
+import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
 import { StatusBar } from "expo-status-bar"
@@ -6,6 +7,7 @@ import LandingPage from "./pages/LandingPage"
 import "react-native-gesture-handler"
 import Profile from "./pages/Profile"
 import SplashScreen from "./pages/SplashScreen"
+import StartGame from "./pages/Start"
 
 const Stack = createStackNavigator()
 const App = () => {
@@ -15,7 +17,7 @@ const App = () => {
         <Stack.Navigator initialRouteName="LandingPage">
           <Stack.Screen
             name="SplashScreen"
-            component={LandingPage}
+            component={SplashScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -26,6 +28,11 @@ const App = () => {
           <Stack.Screen
             name="Profile"
             component={Profile}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Start"
+            component={StartGame}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

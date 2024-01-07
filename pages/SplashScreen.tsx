@@ -1,3 +1,4 @@
+import React from "react"
 import { StatusBar } from "expo-status-bar"
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
